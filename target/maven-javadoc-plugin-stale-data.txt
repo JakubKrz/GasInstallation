@@ -1,0 +1,49 @@
+@options
+@packages
+-encoding
+'UTF-8'
+-protected
+-source
+'11'
+-sourcepath
+'C:/Users/krzyw/Documents/NetBeansProjects/gasInstallation/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/krzyw/Documents/NetBeansProjects/gasInstallation/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'GasInstallation 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' 'C:/Users/krzyw/Documents/NetBeansProjects/gasInstallation/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'GasInstallation 1.0-SNAPSHOT API'
+pl.polsl.controller
+pl.polsl.main
+pl.polsl.model
+pl.polsl.view
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\src\main\java = 1697897100505
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\allclasses-index.html = 1698011558276
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\allpackages-index.html = 1698011558282
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\element-list = 1698011558147
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\help-doc.html = 1698011558310
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\index-all.html = 1698011558304
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\index.html = 1698011558257
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\jquery-ui.overrides.css = 1698011558323
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\member-search-index.js = 1698011558287
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\module-search-index.js = 1698011558283
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\overview-summary.html = 1698011558306
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\overview-tree.html = 1698011558250
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\package-search-index.js = 1698011558285
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\script.js = 1698011558313
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\search.js = 1698011558315
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\serialized-form.html = 1698011558202
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\stylesheet.css = 1698011558312
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\tag-search-index.js = 1698011558288
+C:\Users\krzyw\Documents\NetBeansProjects\gasInstallation\target\site\apidocs\type-search-index.js = 1698011558286
