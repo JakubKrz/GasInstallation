@@ -8,15 +8,15 @@ package pl.polsl.model;
  * Tank class representing a gas tank with specific properties.
  * 
  * @author Jakub Krzywoń
- * @version 2.1
+ * @version 1.1
  */
 public class Tank {
     
     /** The rate at which gas is flowing into the tank. */
-    private int gasInflow = 0;
+    private double gasInflow = 0;
     
     /** The rate at which gas is flowing out of the tank. */
-    private int gasOutflow = 0;
+    private double gasOutflow = 0;
     
      /** The starting pressure inside the gas tank, measured in hPa. */
     private double pressure = 1013.25;
@@ -35,7 +35,7 @@ public class Tank {
      * 
      * @param gasInflow The gas inflow rate to set.
      */
-    public void setGasInflow(int gasInflow)
+    public void setGasInflow(Double gasInflow)
     {
         this.gasInflow = gasInflow;
     }
@@ -45,7 +45,7 @@ public class Tank {
      * 
      * @param gasOutflow The gas outflow rate to set.
      */
-    public void setGasOutflow(int gasOutflow)
+    public void setGasOutflow(Double gasOutflow)
     {
         this.gasOutflow = gasOutflow;
     }
@@ -65,7 +65,7 @@ public class Tank {
      * 
      * @return The current gas inflow rate.
      */
-    public int getGasInflow()
+    public double getGasInflow()
     {
         return this.gasInflow;
     }
@@ -75,7 +75,7 @@ public class Tank {
      * 
      * @return The current gas outflow rate.
      */
-    public int getGasOutflow()
+    public double getGasOutflow()
     {
         return this.gasOutflow;
     }
@@ -108,16 +108,6 @@ public class Tank {
     public double getTemperature()
     {
         return this.temperature;
-    }
-    
-    /**
-     * Getter for maxPressure
-     * 
-     * @return The maxPressure.
-     */
-    public double getMaxPressure()
-    {
-        return this.maxPressure;
     }
     
     /**

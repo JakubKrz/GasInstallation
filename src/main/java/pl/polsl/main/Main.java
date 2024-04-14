@@ -7,24 +7,24 @@ package pl.polsl.main;
 
 import pl.polsl.controller.Controller;
 
+
 /** 
  * Main class responsible for initiating the gas monitoring application.
  * 
  * @author Jakub Krzywoń
- * @version 1.1
+ * @version 3.1
  */
 public class Main {
 
    /**
      * Main method serving as the entry point of the application.
-     * Initializes the Controller class and invokes its run method.
+     * Initializes the Controller class.
      * 
      * @param args command line parameters
      * - "random": Generates random gas inflow and outflow values for simulation.
      * - "set": Allows the user to input specific gas inflow and outflow values.
      */
     public static void main(String args[]) {
-        Controller controller = new Controller();
-        controller.run(args);
+        Controller controller = new Controller(args);
     }
 }

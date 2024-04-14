@@ -11,6 +11,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 
@@ -19,7 +20,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *Test class for Model class 
  * 
  * @author Jakub Krzywoń
- * @version 1.1
+ * @version 2.1
  */
 public class ModelTest {
     
@@ -129,4 +130,33 @@ public class ModelTest {
         double averagePressure = model.getAveragePressure();
         assertEquals(expectedAverage, averagePressure, message);
     }
+    
+   /**
+     * Tests the savePressureHistory and readPressureHistory methods with different pressureHistory values.
+     *
+     * Returns values Comma-separated list of pressure values to be saved and read.
+     */
+    @ParameterizedTest
+    @CsvSource({
+        "1.0, 2.0, 3.0",
+        "0.0, 0.0, 0.0",
+        "5.0, 5.0, 5.0"
+    })
+    /**
+     * Tests the savePressureHistory and readPressureHistory method with various pressureHistory values .
+     * 
+     * @param message Test case description.
+     * @param pressureHistory List of pressure values.
+     * @param expectedAverage Expects equal arrayList from readPressureHistory and given arrayList.
+     */
+    public void testSaveReadPressureHistory(double value1, double value2, double value3) {
+        model = new Model();
+        ArrayList<Double> testPressureHistory = new ArrayList<>(Arrays.asList(value1, value2, value3));
+        model.setPressureHistory(testPressureHistory);
+        String fileName = "testPressureHistory.csv"; // You can use any file extension
+        model.savePressureHistory(fileName);
+        model.readPressureHistory(fileName);
+        assertEquals(testPressureHistory, model.getPressureHistory(), "After saving and reading pressure history is not the same");
+}
+
 }

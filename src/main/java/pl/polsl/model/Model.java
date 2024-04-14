@@ -4,13 +4,19 @@
  */
 package pl.polsl.model;
 
+import java.beans.PropertyChangeListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.event.SwingPropertyChangeSupport;
 
 /**
  * The Model class represents the core logic and data of the gas installation monitoring system.
  * 
  * @author Jakub Krzywoń
- * @version 2.1
+ * @version 3.1
  */
 
 public class Model {
@@ -30,19 +36,12 @@ public class Model {
     /** List that stores historical values of pressure */
     private ArrayList<Double> pressureHistory;
     
-    /** Enum representing diffrent states of gas pressure : LOW,NORMAL,HIGH */
-    public enum PressureState {
-       LOW, 
-       NORMAL, 
-       HIGH
-    }
-    
-    //* Variable representing curent state of gas pressure */
-    private PressureState pressureState;
+     /** Support for Swing property change events */
+    private final SwingPropertyChangeSupport swingPropChangeFirer;
     
     /**
      * Constructor
-     * Initializes the tank, sets pressureState, computes the gas conductivity factor and sets the start time.
+     * Initializes the tank, computes the gas conductivity factor and sets the start time.
      */
     public Model()
     {
@@ -50,7 +49,16 @@ public class Model {
         this.gasConductivityFactor = this.tank.getVolume() / (this.tank.getTemperature() * this.gasConstant);
         this.timer = System.currentTimeMillis();
         this.pressureHistory = new ArrayList<>();
-        this.pressureState = PressureState.NORMAL;
+        swingPropChangeFirer = new SwingPropertyChangeSupport(this);//changed
+    }
+    
+    /**
+     * Adds a property change listener to the Swing property change support.
+     * 
+     * @param prop The property change listener to be added.
+     */
+    public void addListener(PropertyChangeListener prop){
+        swingPropChangeFirer.addPropertyChangeListener(prop);
     }
     
     /**
@@ -72,24 +80,20 @@ public class Model {
      */
     public void updatePressure() throws PressureOverflowException
     {
+        double oldValue = tank.getPressure();
         long elapsedTime = System.currentTimeMillis() - this.timer;
         this.timer = System.currentTimeMillis();
         double elapsedTimeMin = (double) elapsedTime / 60000;
         double change = ((this.tank.getGasInflow() - this.tank.getGasOutflow()) / this.gasConductivityFactor) * elapsedTimeMin;
         double result = this.tank.getPressure() + change;
-        
-        if(result < 0)
-        {
-            this.applyChangeOfPressure(0);
-        }
-        else 
-        {
-            this.applyChangeOfPressure(result);   
-        }
+
+        if(result < 0) result = 0;
+        this.applyChangeOfPressure(result);   
+        swingPropChangeFirer.firePropertyChange("Pressure", oldValue, result);
     }
     
    /**
-    * Applies the calculated change in gas pressure to the tank. Updates pressure state and history.
+    * Applies the calculated change in gas pressure to the tank. Updates pressure history.
     * Throws a PressureOverflowException if the pressure exceeds the maximum allowed value.
     * 
     * @param pressure The new gas pressure to be set in the tank.
@@ -98,7 +102,6 @@ public class Model {
     private void applyChangeOfPressure(double pressure) throws PressureOverflowException
     {
         this.setPressure(pressure);
-        this.updatePressureState();
         this.updatePressureHistory();  
         if(pressure > this.tank.getMaxAllowedPressure())
         {
@@ -111,9 +114,11 @@ public class Model {
      * 
      * @param inflow The new gas inflow rate.
      */
-    public void setGasInflow(int inflow)
+    public void setGasInflow(Double inflow)
     {
+        double oldValue = this.tank.getGasInflow();
         this.tank.setGasInflow(inflow);
+        swingPropChangeFirer.firePropertyChange("Inflow", oldValue, inflow);
     }
     
      /**
@@ -121,9 +126,29 @@ public class Model {
      * 
      * @param outflow The new gas outflow rate.
      */
-    public void setGasOutflow(int outflow)
+    public void setGasOutflow(Double outflow)
     {
+        double oldValue = this.tank.getGasOutflow();
         this.tank.setGasOutflow(outflow);
+        swingPropChangeFirer.firePropertyChange("Outflow", oldValue, outflow);
+    }
+    
+    /**
+     * Gets the gas inflow rate to the tank.
+     * 
+     * @return The gas inflow rate.
+     */
+    public double getGasInflow(){
+        return this.tank.getGasInflow();
+    }
+    
+     /**
+     * Gets the gas outflow rate from the tank.
+     * 
+     * @return The gas outflow rate.
+     */
+    public double getGasOutflow(){
+        return this.tank.getGasOutflow();
     }
     
     /**
@@ -192,32 +217,6 @@ public class Model {
     }
     
     /**
-     * Updates the current pressureState based on the gas pressure and the maximum allowed pressure.
-     */  
-    private void updatePressureState()
-    {
-        if(this.tank.getPressure() >= this.getMaxAllowedPressure() * 0.8 )
-        {
-            this.pressureState = PressureState.HIGH;
-        }
-        else
-        {
-            this.pressureState = PressureState.NORMAL;
-        }
-        //TO DO: add a conditon for low pressure state
-    }
-    
-    /**
-     * Getter for current pressureState.
-     *
-     * @return The current pressure state (LOW, NORMAL, HIGH).
-     */   
-    public PressureState getPressureState()
-    {
-        return this.pressureState;
-    }
-    
-    /**
      * Setter for pressureHistory.
      *
      * @param pressureHistory The ArrayList containing historical gas pressure values.
@@ -245,5 +244,55 @@ public class Model {
     public double getMaxAllowedPressure()
     {
         return this.tank.getMaxAllowedPressure();
+    }
+    
+    /**
+     * Saves the pressure history to a file with the default filename "PressureHistory.txt".
+     */
+    public void savePressureHistory()
+    {
+        this.savePressureHistory("PressureHistory.txt");
+    }
+    
+    /**
+     * Saves the pressure history to a file with the specified filename.
+     * 
+     * @param fileName The name of the file to save the pressure history.
+     */
+    public void savePressureHistory(String fileName)
+    {
+        try (FileWriter writer = new FileWriter(fileName)) {
+            for (Double value : this.pressureHistory) {
+            writer.write(value.toString() + "\n");
+            }
+        swingPropChangeFirer.firePropertyChange("Save",null,null);
+        } catch (IOException e) {
+        }
+    }
+    
+    /**
+     * Reads the pressure history from the default filename "PressureHistory.txt".
+     */
+    public void readPressureHistory()
+    {
+        readPressureHistory("PressureHistory.txt");
+    }
+    
+    /**
+     * Reads the pressure history from the specified filename.
+     * 
+     * @param fileName The name of the file to read the pressure history from.
+     */
+    public void readPressureHistory(String fileName)
+    {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                double number = Double.parseDouble(line);
+                this.pressureHistory.add(number);
+            }
+        swingPropChangeFirer.firePropertyChange("Read",null,null);
+        } catch (IOException | NumberFormatException e) {
+        }    
     }
 }
