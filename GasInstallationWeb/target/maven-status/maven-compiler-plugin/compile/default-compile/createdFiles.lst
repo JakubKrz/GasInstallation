@@ -1,0 +1,8 @@
+pl\polsl\model\Model.class
+pl\polsl\model\Tank.class
+pl\polsl\servlet\HistoryServlet.class
+pl\polsl\servlet\CalculationServlet.class
+pl\polsl\model\PressureOverflowException.class
+com\mycompany\gasinstallationweb\resources\JakartaEE8Resource.class
+com\mycompany\gasinstallationweb\JakartaRestConfiguration.class
+pl\polsl\view\View.class
