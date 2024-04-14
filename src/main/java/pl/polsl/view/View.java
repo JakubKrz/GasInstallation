@@ -7,6 +7,7 @@ package pl.polsl.view;
 import pl.polsl.model.Model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ import java.util.Scanner;
  * The View class represents the user interface of the gas installation monitoring system.
  * 
  * @author Jakub Krzywoń
- * @version 1.1
+ * @version 2.1
  */
 public class View {
     
@@ -37,10 +38,26 @@ public class View {
     }
     
     /**
-     * Displays the current gas pressure on the console.
+     * Displays the current gas pressure on the console and information whether is it in normal range.
      */
     public void updatePressure()
     {
+        switch (this.model.getPressureState()) 
+        {
+            case HIGH: 
+                System.out.print("The pressure exceeds 80% of allowed threshold! \n");
+                break;
+            case NORMAL: 
+                System.out.print("The pressure level is within the normal range \n");
+                break;
+            case LOW: 
+                //TO DO: show message for low pressure
+                break;
+        }
+
+        {
+            
+        }
         System.out.print("Pressure = " + model.getPressure() + " [hPa]\n");
     }
     
@@ -72,22 +89,23 @@ public class View {
     /**
      * Prompts the user to enter gas inflow and outflow values and handles invalid inputs.
      * 
-     * @return array of integers representing valid gas inflow and outflow values.
+     * @return arrayList of integers representing valid gas inflow and outflow values.
      */
-    public int[] takInflowOutflow()
+    public ArrayList takInflowOutflow()
     {   
-        int inflowOutflow[] = new int[2];
+        ArrayList<Integer> inflowOutflow = new ArrayList<>(2);
         boolean isValidInput = false;
 
         while (!isValidInput) {
             try {
                 System.out.print("Enter Inflow: ");
-                inflowOutflow[0] = scanner.nextInt();
+                inflowOutflow.add(scanner.nextInt());
                 System.out.print("Enter Outflow: ");
-                inflowOutflow[1] = scanner.nextInt();
+                inflowOutflow.add(scanner.nextInt());
                 isValidInput = true;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter integers.");
+                inflowOutflow.clear();
                 scanner.next();
             }
         }
@@ -103,5 +121,17 @@ public class View {
     public void displayError(String errorMessage)
     {
         System.out.print("Error: " + errorMessage + "\n");
+    }
+    
+    /**
+     * Displays the pressure history on console.
+     */
+    public void displayPressureHistory()
+    {
+        System.out.print("Pressure history: \n");
+        for(Double pressure : this.model.getPressureHistory())
+        {
+             System.out.print(pressure + " [hPa]\n");
+        }
     }
 }

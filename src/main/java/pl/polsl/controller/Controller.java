@@ -4,6 +4,7 @@
  */
 package pl.polsl.controller;
 
+import java.util.ArrayList;
 import pl.polsl.model.Model;
 import pl.polsl.view.View;
 import pl.polsl.model.PressureOverflowException;
@@ -14,7 +15,7 @@ import java.util.Random;
  * Controller class responsible for managing interactions between the model and the view.
  * 
  * @author Jakub Krzywoń
- * @version 1.1
+ * @version 2.1
  */
 public class Controller {
 
@@ -56,13 +57,15 @@ public class Controller {
             {
                 switch (args[0]) {
                     case "random":
+                        this.model.startTime();
                         this.update(true);
                         isValidInput = true;
                         break;
                     case "set":
-                        int inflowOutflow[] = view.takInflowOutflow();
-                        this.model.setGasInflow(inflowOutflow[0]);
-                        this.model.setGasOutflow(inflowOutflow[1]);
+                        ArrayList<Integer> inflowOutflow = new ArrayList<>(view.takInflowOutflow());
+                        this.model.setGasInflow(inflowOutflow.get(0));
+                        this.model.setGasOutflow(inflowOutflow.get(1));
+                        this.model.startTime();
                         this.update(false);
                         isValidInput = true;
                         break;
@@ -106,5 +109,3 @@ public class Controller {
         }
     }
 }
-
-

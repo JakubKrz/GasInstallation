@@ -8,7 +8,7 @@ package pl.polsl.model;
  * Tank class representing a gas tank with specific properties.
  * 
  * @author Jakub Krzywoń
- * @version 1.1
+ * @version 2.1
  */
 public class Tank {
     
@@ -116,6 +116,16 @@ public class Tank {
      * @return The maxPressure.
      */
     public double getMaxPressure()
+    {
+        return this.maxPressure;
+    }
+    
+    /**
+     * Getter for maxPressure
+     * 
+     * @return The maxPressure.
+     */
+    public double getMaxAllowedPressure()
     {
         return this.maxPressure;
     }

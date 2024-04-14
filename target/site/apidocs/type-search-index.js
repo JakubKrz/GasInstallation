@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"pl.polsl.controller","l":"Controller"},{"p":"pl.polsl.main","l":"Main"},{"p":"pl.polsl.model","l":"Model"},{"p":"pl.polsl.model","l":"PressureOverflowException"},{"p":"pl.polsl.model","l":"Tank"},{"p":"pl.polsl.view","l":"View"}];updateSearchResults();
